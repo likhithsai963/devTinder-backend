@@ -1,7 +1,14 @@
 const express = require('express');
 const app = express();
 
-app.use("/",(req,res) =>{
+
+app.get("/user",(req,res)=>{
+    res.send({firstName:"Likhith",lastName:"Matta"})
+})
+app.post("/user",(req,res)=>{
+    res.send("Data saved Successfully")
+})
+app.use("/test",(req,res) =>{
     res.send("Hello from Server!")
 })
 
