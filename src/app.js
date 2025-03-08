@@ -1,4 +1,5 @@
 const express = require('express');
+const { adminAuth, userAuth } = require('./middlewares/auth');
 const app = express();
 
 
@@ -18,7 +19,7 @@ app.post("/user",(req,res)=>{
 //     res.send("Response2")
 // }])
 
-app.use("/user",[(req,res,next) =>{
+app.use("/user",userAuth,[(req,res,next) =>{
     // res.send("Response 1")
     next();
 },(req,res,next)=>{
@@ -27,6 +28,17 @@ app.use("/user",[(req,res,next) =>{
 }],(req,res,next)=>{
     res.send("Response 3")
 })
+
+
+// handle authorization
+
+app.use("/admin",adminAuth)
+
+app.get("/admin/getAllData",(req,res)=>{
+    res.send("All Data sent")
+})
+
+
 app.listen(3000,()=>{
     console.log("successfully listening to port 3000")
 });
