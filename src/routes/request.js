@@ -27,7 +27,7 @@ requestRouter.post("/request/send/:status/:touserId", userAuth, async (req, res)
             ]
         });
         if (existingConnectionRequest) {
-            return res.status(400).send({ message: "Connection Request Already Exist" })
+            return res.status(400).json({ message: "Connection Request Already Exist" })
         }
         const connectionRequest = new ConnectionRequest({
             fromUserId,
@@ -39,7 +39,7 @@ requestRouter.post("/request/send/:status/:touserId", userAuth, async (req, res)
         res.json({ message: req.user.firstName + " " + "is" + status + "in" + toUser.firstName, data })
 
     } catch (error) {
-        res.status(400).send("ERROR" + error.message)
+        res.status(400).json({messaage: error.message})
     }
 })
 
@@ -53,7 +53,7 @@ requestRouter.post(
 
             const allowedStatus = ["accepted", "rejected"];
             if (!allowedStatus.includes(status)) {
-                return res.status(400).json({ messaage: "Status not allowed!" });
+                return res.status(400).json({ message: "Status not allowed!" });
             }
 
             const connectionRequest = await ConnectionRequest.findOne({
@@ -73,7 +73,7 @@ requestRouter.post(
 
             res.json({ message: "Connection request " + status, data });
         } catch (err) {
-            res.status(400).send("ERROR: " + err.message);
+            res.status(400).json({message : err.message});
         }
     }
 );

@@ -18,10 +18,10 @@ authRouter.post("/signup", async (req, res, next) => {
 
         const user = new User({ firstName, lastName, emailId, password: passwordhash })
         await user.save();
-        res.send("User added successfully")
+        res.json({message : "User added successfully"})
     }
     catch (err) {
-        res.status(400).send("Error saving the user:" + err.message)
+        res.status(400).json({message : err.message})
     }
 
 })
@@ -36,20 +36,20 @@ authRouter.post("/login", async (req, res) => {
         if (isPasswordValid) {
             const token = await user.getJWT();
             res.cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) })
-            res.send("login Successfully")
+            res.json({message :"login Successfully"})
         }
         else {
             throw new Error("Invalid Credentials")
         }
     } catch (error) {
-        res.status(400).send("Error:" + error.message)
+        res.status(400).json({message : error.message})
     }
 })
 authRouter.post("/logout", (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now())
     });
-    res.send("loggged out sucessfully");
+    res.json({message:"loggged out sucessfully"});
 
 })
 

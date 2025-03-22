@@ -8,10 +8,10 @@ const {validateEditProfileData} = require("../utils/validation")
 profileRouter.get("/profile/view",userAuth, async (req, res) => {
     try {
         const user = req.user
-        res.send(user)
+        res.json({data : user})
     }
     catch(err){
-        res.send("Error:"+ err.message)
+        res.json({message : err.message})
     }
 });
 
@@ -28,7 +28,7 @@ profileRouter.patch("/profile/edit",userAuth,async (req,res,next)=>{
 
         
     } catch (error) {
-        res.status(400).send("ERROR:"+ error.message)
+        res.status(400).json({message : error.message})
     }
 })
 
