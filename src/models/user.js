@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl:{
         type: String,
-        default:"https://www.shutterstock.com/image-vector/simple-gray-avatar-icons-representing-male-2473353263",
+        default:"http://placebeard.it/250/250",
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error("invalid Photo URL")
