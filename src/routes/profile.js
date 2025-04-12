@@ -15,21 +15,24 @@ profileRouter.get("/profile/view",userAuth, async (req, res) => {
     }
 });
 
-profileRouter.patch("/profile/edit",userAuth,async (req,res,next)=>{
+profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     try {
-       if(!validateEditProfileData(req)){
-            throw new Error("Invalid Edit Request")
-       }
-       const logggedInUser = req.user;
-       Object.keys(req.body).forEach((key) => (logggedInUser[key] = req.body[key]))
-
-       res.json({message : `${logggedInUser.firstName} Your profile was updated Successfully`,data: logggedInUser})
-       await logggedInUser.save()
-
-        
-    } catch (error) {
-        res.status(400).json({message : error.message})
+      if (!validateEditProfileData(req)) {
+        throw new Error("Invalid Edit Request");
+      }
+  
+      const loggedInUser = req.user;
+  
+      Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
+  
+      await loggedInUser.save();
+  
+      res.json({
+        message: `${loggedInUser.firstName}, your profile updated successfuly`,
+        data: loggedInUser,
+      });
+    } catch (err) {
+      res.status(400).send("ERROR : " + err.message);
     }
-})
-
+  });
 module.exports = profileRouter;
