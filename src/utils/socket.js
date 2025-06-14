@@ -1,7 +1,6 @@
 const socket = require("socket.io")
 const crypto = require("crypto");
 const { Chat } = require("../models/chat");
-const connectionRequestModel = require("../models/connectionRequest");
 
 const getSecretRoomId = (userId, targetUserId) => {
     return crypto.createHash('sha256').update([userId, targetUserId].sort().join("_")).digest("hex");
@@ -26,7 +25,7 @@ const initializeSocket = (server) => {
                     participants: { $all: [userId, targetUserId] }
                 });
                 if (!chat) {
-                    chat = await new chat({
+                    chat = new Chat({
                         participants: [userId, targetUserId],
                         messages: []
                     })
@@ -43,9 +42,7 @@ const initializeSocket = (server) => {
             }
 
         })
-        socket.on("disconnect", () => {
-
-        })
+        socket.on("disconnect", () => {})
 
     })
 }
